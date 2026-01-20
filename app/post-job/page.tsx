@@ -23,7 +23,7 @@ export default function PostJobPage() {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState<JobCategory>("snow-removal");
   const [address, setAddress] = useState("");
-  const [neighborhood, setNeighborhood] = useState(CHARLOTTETOWN_NEIGHBORHOODS[0]);
+  const [neighborhood, setNeighborhood] = useState<string>(CHARLOTTETOWN_NEIGHBORHOODS[0]);
   const [timePreference, setTimePreference] = useState<TimePreference>("asap");
   const [scheduledDate, setScheduledDate] = useState("");
   const [pay, setPay] = useState("");
