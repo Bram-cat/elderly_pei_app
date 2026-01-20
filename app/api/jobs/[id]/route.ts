@@ -4,10 +4,11 @@ import { jobsStorage } from '@/lib/storage';
 // GET /api/jobs/[id] - Get a single job by ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const job = jobsStorage.getById(params.id);
+    const { id } = await params;
+    const job = jobsStorage.getById(id);
 
     if (!job) {
       return NextResponse.json(
@@ -38,12 +39,13 @@ export async function GET(
 // PATCH /api/jobs/[id] - Update a job (for accepting, completing, cancelling)
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
 
-    const job = jobsStorage.getById(params.id);
+    const job = jobsStorage.getById(id);
 
     if (!job) {
       return NextResponse.json(
@@ -67,7 +69,7 @@ export async function PATCH(
     }
 
     // Update the job
-    const updatedJob = jobsStorage.update(params.id, updates);
+    const updatedJob = jobsStorage.update(id, updates);
 
     if (!updatedJob) {
       return NextResponse.json(
@@ -98,10 +100,11 @@ export async function PATCH(
 // DELETE /api/jobs/[id] - Delete a job
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const success = jobsStorage.delete(params.id);
+    const { id } = await params;
+    const success = jobsStorage.delete(id);
 
     if (!success) {
       return NextResponse.json(

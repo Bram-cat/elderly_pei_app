@@ -4,10 +4,11 @@ import { profilesStorage, jobsStorage } from '@/lib/storage';
 // GET /api/profiles/[id] - Get a single profile by ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const profile = profilesStorage.getById(params.id);
+    const { id } = await params;
+    const profile = profilesStorage.getById(id);
 
     if (!profile) {
       return NextResponse.json(
@@ -20,7 +21,7 @@ export async function GET(
     }
 
     // Also get their jobs for display
-    const jobs = jobsStorage.getByProfileId(params.id);
+    const jobs = jobsStorage.getByProfileId(id);
 
     return NextResponse.json({
       success: true,
@@ -44,12 +45,13 @@ export async function GET(
 // PATCH /api/profiles/[id] - Update a profile
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
 
-    const updatedProfile = profilesStorage.update(params.id, body);
+    const updatedProfile = profilesStorage.update(id, body);
 
     if (!updatedProfile) {
       return NextResponse.json(

@@ -13,13 +13,14 @@ import { formatCurrency, formatRelativeDate, generateId } from "@/lib/utils";
 import { MapPin, Clock, DollarSign, User, Phone, Mail, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-export default function JobDetailPage({ params }: { params: { id: string } }) {
+export default function JobDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const [job, setJob] = useState<Job | null>(null);
   const [poster, setPoster] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [accepting, setAccepting] = useState(false);
   const [showAcceptForm, setShowAcceptForm] = useState(false);
+  const [jobId, setJobId] = useState<string>("");
 
   // Worker info for accepting job
   const [workerName, setWorkerName] = useState("");
@@ -27,13 +28,16 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
   const [workerEmail, setWorkerEmail] = useState("");
 
   useEffect(() => {
-    fetchJobDetails();
-  }, [params.id]);
+    params.then(({ id }) => {
+      setJobId(id);
+      fetchJobDetails(id);
+    });
+  }, []);
 
-  const fetchJobDetails = async () => {
+  const fetchJobDetails = async (id: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/jobs/${params.id}`);
+      const response = await fetch(`/api/jobs/${id}`);
       const data = await response.json();
 
       if (data.success) {
@@ -80,7 +84,7 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
       }
 
       // Update job status to accepted
-      const jobResponse = await fetch(`/api/jobs/${params.id}`, {
+      const jobResponse = await fetch(`/api/jobs/${jobId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -108,7 +112,7 @@ export default function JobDetailPage({ params }: { params: { id: string } }) {
     if (!job || !confirm('Mark this job as completed?')) return;
 
     try {
-      const response = await fetch(`/api/jobs/${params.id}`, {
+      const response = await fetch(`/api/jobs/${jobId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: 'completed' }),
