@@ -1,1 +1,137 @@
-[]
+[
+  {
+    "id": "profile-001",
+    "name": "Margaret Thompson",
+    "type": "senior",
+    "phone": "(902) 555-1234",
+    "email": "margaret.thompson@email.com",
+    "neighborhood": "Downtown",
+    "rating": 4.8,
+    "totalJobs": 12,
+    "totalSpent": 840,
+    "joinedAt": "2025-11-15T10:00:00.000Z"
+  },
+  {
+    "id": "profile-002",
+    "name": "Robert MacKenzie",
+    "type": "senior",
+    "phone": "(902) 555-2345",
+    "email": "robert.mackenzie@email.com",
+    "neighborhood": "Brighton",
+    "rating": 4.9,
+    "totalJobs": 18,
+    "totalSpent": 1260,
+    "joinedAt": "2025-10-20T14:00:00.000Z"
+  },
+  {
+    "id": "profile-003",
+    "name": "Helen Stewart",
+    "type": "senior",
+    "phone": "(902) 555-3456",
+    "email": "helen.stewart@email.com",
+    "neighborhood": "West Royalty",
+    "rating": 5.0,
+    "totalJobs": 8,
+    "totalSpent": 620,
+    "joinedAt": "2025-12-01T09:00:00.000Z"
+  },
+  {
+    "id": "profile-004",
+    "name": "James Campbell",
+    "type": "senior",
+    "phone": "(902) 555-4567",
+    "neighborhood": "UPEI Campus",
+    "rating": 4.7,
+    "totalJobs": 15,
+    "totalSpent": 1050,
+    "joinedAt": "2025-11-10T11:00:00.000Z"
+  },
+  {
+    "id": "profile-005",
+    "name": "Dorothy Walsh",
+    "type": "senior",
+    "phone": "(902) 555-5678",
+    "email": "dorothy.walsh@email.com",
+    "neighborhood": "Parkdale",
+    "rating": 4.6,
+    "totalJobs": 10,
+    "totalSpent": 780,
+    "joinedAt": "2025-12-05T13:00:00.000Z"
+  },
+  {
+    "id": "profile-006",
+    "name": "George Murphy",
+    "type": "senior",
+    "phone": "(902) 555-6789",
+    "neighborhood": "Sherwood",
+    "rating": 4.8,
+    "totalJobs": 14,
+    "totalSpent": 980,
+    "joinedAt": "2025-11-22T10:00:00.000Z"
+  },
+  {
+    "id": "profile-007",
+    "name": "Sarah Martin",
+    "type": "senior",
+    "phone": "(902) 555-7890",
+    "email": "sarah.martin@email.com",
+    "neighborhood": "East Royalty",
+    "rating": 4.9,
+    "totalJobs": 11,
+    "totalSpent": 825,
+    "joinedAt": "2025-11-18T15:00:00.000Z"
+  },
+  {
+    "id": "profile-008",
+    "name": "William Gallant",
+    "type": "senior",
+    "phone": "(902) 555-8901",
+    "neighborhood": "Hillsborough Park",
+    "rating": 4.7,
+    "totalJobs": 9,
+    "totalSpent": 690,
+    "joinedAt": "2025-12-10T12:00:00.000Z"
+  },
+  {
+    "id": "youth-001",
+    "name": "Alex Chen",
+    "type": "youth",
+    "school": "UPEI - Computer Science",
+    "phone": "(902) 555-9012",
+    "email": "alex.chen@upei.ca",
+    "bio": "Third year CS student looking to help out in the community!",
+    "skills": ["Snow Removal", "Tech Help", "Moving"],
+    "rating": 4.9,
+    "totalJobs": 24,
+    "totalEarned": 1680,
+    "joinedAt": "2025-09-01T10:00:00.000Z"
+  },
+  {
+    "id": "youth-002",
+    "name": "Emma MacLeod",
+    "type": "youth",
+    "school": "UPEI - Business",
+    "phone": "(902) 555-0123",
+    "email": "emma.macleod@upei.ca",
+    "bio": "Hardworking business student, great with yard work and organization!",
+    "skills": ["Yard Work", "Moving", "Organization"],
+    "rating": 5.0,
+    "totalJobs": 31,
+    "totalEarned": 2170,
+    "joinedAt": "2025-09-15T09:00:00.000Z"
+  },
+  {
+    "id": "demo",
+    "name": "Demo User",
+    "type": "youth",
+    "school": "UPEI - General Studies",
+    "phone": "(902) 555-0000",
+    "email": "demo@upei.ca",
+    "bio": "Demo profile for testing the app!",
+    "skills": ["All Tasks"],
+    "rating": 5.0,
+    "totalJobs": 0,
+    "totalEarned": 0,
+    "joinedAt": "2026-01-21T00:00:00.000Z"
+  }
+]

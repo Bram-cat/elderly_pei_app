@@ -1,1 +1,348 @@
-[]
+[
+  {
+    "id": "job-001",
+    "title": "Snow removal from driveway and walkway",
+    "description": "Need help clearing snow from my driveway (2 car spaces) and front walkway after the recent snowfall. The snow is about 15cm deep. I have a shovel and salt available.",
+    "category": "snow-removal",
+    "location": {
+      "address": "145 University Avenue",
+      "lat": 46.2382,
+      "lng": -63.1311,
+      "neighborhood": "UPEI Campus"
+    },
+    "timePreference": "asap",
+    "pay": 75,
+    "postedBy": "profile-004",
+    "postedAt": "2026-01-21T08:30:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-002",
+    "title": "Help moving furniture to second floor",
+    "description": "I need assistance moving a dresser, bookshelf, and two boxes up to the second floor. Everything is already packed and ready to go. Should take about an hour.",
+    "category": "moving",
+    "location": {
+      "address": "78 Queen Street",
+      "lat": 46.2351,
+      "lng": -63.1242,
+      "neighborhood": "Downtown"
+    },
+    "timePreference": "this-week",
+    "pay": 60,
+    "postedBy": "profile-001",
+    "postedAt": "2026-01-21T09:15:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-003",
+    "title": "Clear snow from back deck and stairs",
+    "description": "Looking for someone to shovel snow off my back deck and stairs. The deck is medium-sized and the stairs have 8 steps. Ice salt will be provided.",
+    "category": "snow-removal",
+    "location": {
+      "address": "234 Brighton Road",
+      "lat": 46.2510,
+      "lng": -63.1456,
+      "neighborhood": "Brighton"
+    },
+    "timePreference": "today",
+    "pay": 50,
+    "postedBy": "profile-002",
+    "postedAt": "2026-01-21T07:45:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-004",
+    "title": "Rake leaves and bag yard waste",
+    "description": "Need help raking leaves from front and back yard. Bags will be provided. The yard is medium-sized with several trees. Great for someone who enjoys outdoor work!",
+    "category": "yard-work",
+    "location": {
+      "address": "567 Sherwood Drive",
+      "lat": 46.2195,
+      "lng": -63.1089,
+      "neighborhood": "Sherwood"
+    },
+    "timePreference": "this-week",
+    "pay": 70,
+    "postedBy": "profile-006",
+    "postedAt": "2026-01-21T10:00:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-005",
+    "title": "Assemble new bookshelf from IKEA",
+    "description": "Purchased a large IKEA bookshelf that needs assembly. All parts and tools are included. Instructions are in the box. Looking for someone patient and good with their hands!",
+    "category": "assembly",
+    "location": {
+      "address": "89 Parkdale Avenue",
+      "lat": 46.2298,
+      "lng": -63.1501,
+      "neighborhood": "Parkdale"
+    },
+    "timePreference": "scheduled",
+    "scheduledDate": "2026-01-23",
+    "pay": 55,
+    "postedBy": "profile-005",
+    "postedAt": "2026-01-20T14:20:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-006",
+    "title": "Shovel snow from entire property",
+    "description": "Large property including long driveway, walkways, and patio area. This will take 2-3 hours of work. Snowblower available if you know how to use it, otherwise shovels provided.",
+    "category": "snow-removal",
+    "location": {
+      "address": "12 West Royalty Road",
+      "lat": 46.2456,
+      "lng": -63.1678,
+      "neighborhood": "West Royalty"
+    },
+    "timePreference": "asap",
+    "pay": 125,
+    "postedBy": "profile-003",
+    "postedAt": "2026-01-21T06:30:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-007",
+    "title": "Fix squeaky door and tighten cabinet handles",
+    "description": "Have a bedroom door that squeaks and several kitchen cabinet handles that are loose. Basic tools will be provided. Should be quick fixes for someone handy!",
+    "category": "repair",
+    "location": {
+      "address": "456 North River Road",
+      "lat": 46.2567,
+      "lng": -63.1234,
+      "neighborhood": "North River Road"
+    },
+    "timePreference": "this-week",
+    "pay": 45,
+    "postedBy": "profile-007",
+    "postedAt": "2026-01-20T16:00:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-008",
+    "title": "Move boxes from garage to storage unit",
+    "description": "Need to transport approximately 15 boxes from my garage to a storage unit nearby (5-minute drive). Boxes are medium weight. Vehicle available for transport.",
+    "category": "moving",
+    "location": {
+      "address": "321 Hillsborough Street",
+      "lat": 46.2412,
+      "lng": -63.1156,
+      "neighborhood": "Hillsborough Park"
+    },
+    "timePreference": "scheduled",
+    "scheduledDate": "2026-01-22",
+    "pay": 65,
+    "postedBy": "profile-008",
+    "postedAt": "2026-01-20T11:30:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-009",
+    "title": "Trim hedges and weed garden beds",
+    "description": "Front yard hedges need trimming and three garden beds need weeding. Hedge trimmers and gardening tools provided. Prefer someone with gardening experience.",
+    "category": "yard-work",
+    "location": {
+      "address": "789 Malpeque Road",
+      "lat": 46.2523,
+      "lng": -63.1623,
+      "neighborhood": "West Royalty"
+    },
+    "timePreference": "this-week",
+    "pay": 80,
+    "postedBy": "profile-003",
+    "postedAt": "2026-01-21T09:45:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-010",
+    "title": "Shovel walkway and spread ice salt",
+    "description": "Simple job - clear the front walkway from sidewalk to door and spread ice salt. Walkway is about 20 feet long. All supplies provided.",
+    "category": "snow-removal",
+    "location": {
+      "address": "45 Grafton Street",
+      "lat": 46.2369,
+      "lng": -63.1288,
+      "neighborhood": "Downtown"
+    },
+    "timePreference": "asap",
+    "pay": 40,
+    "postedBy": "profile-001",
+    "postedAt": "2026-01-21T08:00:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-011",
+    "title": "Assemble outdoor storage shed",
+    "description": "New outdoor storage shed needs to be assembled in the backyard. Instructions included but it's a 2-person job. Should take 2-3 hours. All hardware and tools provided.",
+    "category": "assembly",
+    "location": {
+      "address": "156 Belvedere Avenue",
+      "lat": 46.2287,
+      "lng": -63.1198,
+      "neighborhood": "Parkdale"
+    },
+    "timePreference": "scheduled",
+    "scheduledDate": "2026-01-25",
+    "pay": 90,
+    "postedBy": "profile-005",
+    "postedAt": "2026-01-20T13:15:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-012",
+    "title": "Clear snow from roof overhang",
+    "description": "Heavy snow accumulation on roof overhang above front door needs to be safely removed. Ladder will be provided. Must be comfortable working at height.",
+    "category": "snow-removal",
+    "location": {
+      "address": "298 University Avenue",
+      "lat": 46.2398,
+      "lng": -63.1289,
+      "neighborhood": "UPEI Campus"
+    },
+    "timePreference": "today",
+    "pay": 85,
+    "postedBy": "profile-004",
+    "postedAt": "2026-01-21T07:00:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-013",
+    "title": "Help load moving truck",
+    "description": "Moving to a new place and need help loading furniture and boxes into a rental truck. Heavy lifting involved. Should take about 2 hours. Two people preferred.",
+    "category": "moving",
+    "location": {
+      "address": "512 Water Street",
+      "lat": 46.2344,
+      "lng": -63.1279,
+      "neighborhood": "Downtown"
+    },
+    "timePreference": "scheduled",
+    "scheduledDate": "2026-01-24",
+    "pay": 100,
+    "postedBy": "profile-001",
+    "postedAt": "2026-01-19T15:00:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-014",
+    "title": "Replace weather stripping on front door",
+    "description": "Front door weather stripping is worn and needs replacement. Weather stripping already purchased. Looking for someone handy who can measure and install properly.",
+    "category": "repair",
+    "location": {
+      "address": "677 Brighton Road",
+      "lat": 46.2534,
+      "lng": -63.1478,
+      "neighborhood": "Brighton"
+    },
+    "timePreference": "this-week",
+    "pay": 50,
+    "postedBy": "profile-002",
+    "postedAt": "2026-01-20T10:30:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-015",
+    "title": "Clean out gutters before winter",
+    "description": "Gutters are full of leaves and debris and need to be cleaned before more snow. Ladder provided. Front and back of house. Safety is priority!",
+    "category": "yard-work",
+    "location": {
+      "address": "823 Sherwood Drive",
+      "lat": 46.2178,
+      "lng": -63.1067,
+      "neighborhood": "Sherwood"
+    },
+    "timePreference": "this-week",
+    "pay": 75,
+    "postedBy": "profile-006",
+    "postedAt": "2026-01-21T11:00:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-016",
+    "title": "Shovel driveway and walkways",
+    "description": "Standard snow removal for single-car driveway and two walkways. About 20cm of snow. I can help a little but need someone to do the heavy work.",
+    "category": "snow-removal",
+    "location": {
+      "address": "234 East Royalty Road",
+      "lat": 46.2223,
+      "lng": -63.0989,
+      "neighborhood": "East Royalty"
+    },
+    "timePreference": "today",
+    "pay": 60,
+    "postedBy": "profile-007",
+    "postedAt": "2026-01-21T08:45:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-017",
+    "title": "Assemble new dining table and 4 chairs",
+    "description": "Just bought a dining set that needs assembly. Table and 4 chairs. All pieces are there with instructions. Looking for someone experienced with furniture assembly.",
+    "category": "assembly",
+    "location": {
+      "address": "445 Hillsborough Street",
+      "lat": 46.2425,
+      "lng": -63.1167,
+      "neighborhood": "Hillsborough Park"
+    },
+    "timePreference": "scheduled",
+    "scheduledDate": "2026-01-23",
+    "pay": 70,
+    "postedBy": "profile-008",
+    "postedAt": "2026-01-20T14:45:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-018",
+    "title": "Install new mailbox post",
+    "description": "Old mailbox post is rotting and needs replacement. New post and mailbox purchased. Need someone to dig out old post, set new one in concrete. Post hole digger available.",
+    "category": "repair",
+    "location": {
+      "address": "156 Allen Street",
+      "lat": 46.2312,
+      "lng": -63.1367,
+      "neighborhood": "Parkdale"
+    },
+    "timePreference": "this-week",
+    "pay": 80,
+    "postedBy": "profile-005",
+    "postedAt": "2026-01-20T12:00:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-019",
+    "title": "Move couch and reorganize living room",
+    "description": "Need to rearrange living room furniture including moving a heavy couch, coffee table, and TV stand. Also want to move an armchair from bedroom down to living room.",
+    "category": "moving",
+    "location": {
+      "address": "901 University Avenue",
+      "lat": 46.2356,
+      "lng": -63.1245,
+      "neighborhood": "UPEI Campus"
+    },
+    "timePreference": "this-week",
+    "pay": 55,
+    "postedBy": "profile-004",
+    "postedAt": "2026-01-21T10:30:00.000Z",
+    "status": "open"
+  },
+  {
+    "id": "job-020",
+    "title": "Pile and bag leaves from entire yard",
+    "description": "Large yard with lots of mature trees. Need all leaves raked, piled, and bagged for municipal pickup. Will require several hours of work. Rake and bags provided.",
+    "category": "yard-work",
+    "location": {
+      "address": "678 North River Road",
+      "lat": 46.2589,
+      "lng": -63.1212,
+      "neighborhood": "North River Road"
+    },
+    "timePreference": "scheduled",
+    "scheduledDate": "2026-01-26",
+    "pay": 95,
+    "postedBy": "profile-007",
+    "postedAt": "2026-01-19T09:00:00.000Z",
+    "status": "open"
+  }
+]
