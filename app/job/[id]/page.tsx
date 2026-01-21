@@ -172,12 +172,9 @@ export default function JobDetailPage({ params }: { params: Promise<{ id: string
       {/* Job Header */}
       <div className="mb-8">
         <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center gap-3 mb-2">
-            <span className="text-4xl">{categoryInfo.icon}</span>
-            <div>
-              <Badge variant="outline" className="mb-2">{categoryInfo.label}</Badge>
-              <Badge className={statusColor}>{statusLabel}</Badge>
-            </div>
+          <div className="flex flex-col gap-2">
+            <Badge variant="outline" className="w-fit">{categoryInfo.label}</Badge>
+            <Badge className={`w-fit ${statusColor}`}>{statusLabel}</Badge>
           </div>
           <div className="text-right">
             <div className="text-4xl font-bold text-primary">
