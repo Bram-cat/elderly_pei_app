@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useRef, useCallback } from "react";
 import { Job } from "@/lib/types";
-import { Select } from "@/components/ui/select";
 import { JOB_CATEGORIES } from "@/lib/constants";
 import { Filter, ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
 import JobShortCard from "@/components/JobShortCard";
@@ -118,36 +117,52 @@ export default function Home() {
 
   return (
     <div className="h-screen overflow-hidden bg-black">
-      {/* Filter Button - Top Left */}
-      <div className="fixed top-20 left-4 z-50">
+      {/* Filter Button - Top Center */}
+      <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50">
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center gap-2 px-4 py-2 rounded-full bg-black/60 hover:bg-black/80 text-white backdrop-blur-md transition-all duration-200 border border-white/20"
+          className="flex items-center gap-3 px-6 py-3 rounded-full bg-black/70 hover:bg-black/90 text-white backdrop-blur-md transition-all duration-200 border-2 border-white/30 shadow-lg"
         >
-          <Filter className="h-5 w-5" />
-          <span className="text-sm font-medium">
+          <Filter className="h-6 w-6" />
+          <span className="text-base font-semibold">
             {categoryFilter === "all" ? "All Jobs" : JOB_CATEGORIES[categoryFilter as keyof typeof JOB_CATEGORIES]?.label}
           </span>
         </button>
 
         {/* Filter Dropdown */}
         {showFilters && (
-          <div className="mt-2 p-4 bg-black/90 backdrop-blur-lg border border-white/20 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
-            <Select
-              value={categoryFilter}
-              onChange={(e) => {
-                setCategoryFilter(e.target.value);
-                setShowFilters(false);
-              }}
-              className="w-48 bg-white/10 text-white border-white/20"
-            >
-              <option value="all">All Categories</option>
+          <div className="mt-3 p-3 bg-black/95 backdrop-blur-lg border-2 border-white/30 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
+            <div className="space-y-2">
+              <button
+                onClick={() => {
+                  setCategoryFilter("all");
+                  setShowFilters(false);
+                }}
+                className={`w-full text-left px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 ${
+                  categoryFilter === "all"
+                    ? "bg-primary text-white"
+                    : "bg-white/10 text-white hover:bg-white/20"
+                }`}
+              >
+                All Categories
+              </button>
               {Object.entries(JOB_CATEGORIES).map(([key, info]) => (
-                <option key={key} value={key}>
+                <button
+                  key={key}
+                  onClick={() => {
+                    setCategoryFilter(key);
+                    setShowFilters(false);
+                  }}
+                  className={`w-full text-left px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 ${
+                    categoryFilter === key
+                      ? "bg-primary text-white"
+                      : "bg-white/10 text-white hover:bg-white/20"
+                  }`}
+                >
                   {info.label}
-                </option>
+                </button>
               ))}
-            </Select>
+            </div>
           </div>
         )}
       </div>
