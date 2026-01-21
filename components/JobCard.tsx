@@ -22,7 +22,6 @@ export default function JobCard({ job }: JobCardProps) {
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
-              <span className="text-2xl">{categoryInfo.icon}</span>
               <Badge variant="outline">{categoryInfo.label}</Badge>
               <Badge className={statusColor}>{statusLabel}</Badge>
             </div>
