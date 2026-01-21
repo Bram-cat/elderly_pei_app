@@ -22,16 +22,13 @@ export default function Header() {
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center space-x-2">
-          <div className="flex items-center space-x-2">
-            <span className="text-2xl">🤝</span>
-            <div className="flex flex-col">
-              <span className="font-bold text-lg leading-none">
-                Charlottetown
-              </span>
-              <span className="text-xs text-muted-foreground leading-none">
-                Odd Jobs
-              </span>
-            </div>
+          <div className="flex flex-col">
+            <span className="font-bold text-lg leading-none">
+              Charlottetown
+            </span>
+            <span className="text-xs text-muted-foreground leading-none">
+              Odd Jobs
+            </span>
           </div>
         </Link>
 

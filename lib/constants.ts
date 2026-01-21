@@ -6,42 +6,36 @@ import { JobCategory } from './types';
 export const JOB_CATEGORIES = {
   'snow-removal': {
     label: 'Snow Removal',
-    icon: '❄️',
     description: 'Driveway & walkway snow shoveling',
     suggestedPay: { min: 50, max: 150 },
     seasonal: 'winter', // Dec-Mar
   },
   'moving': {
     label: 'Moving Help',
-    icon: '📦',
     description: 'Furniture & boxes, local moves',
     suggestedPay: { min: 25, max: 40 }, // per hour
     seasonal: 'all',
   },
   'yard-work': {
     label: 'Yard Work',
-    icon: '🌱',
     description: 'Lawn care, raking, gardening',
     suggestedPay: { min: 20, max: 30 }, // per hour
     seasonal: 'spring-fall', // Apr-Nov
   },
   'assembly': {
     label: 'Furniture Assembly',
-    icon: '🔧',
     description: 'IKEA & online purchases',
     suggestedPay: { min: 30, max: 50 }, // flat rate
     seasonal: 'all',
   },
   'repair': {
     label: 'Minor Repairs',
-    icon: '🛠️',
     description: 'Light fixtures, shelves, caulking',
     suggestedPay: { min: 25, max: 50 }, // flat rate
     seasonal: 'all',
   },
   'other': {
     label: 'Other Tasks',
-    icon: '✨',
     description: 'Various odd jobs',
     suggestedPay: { min: 20, max: 40 }, // per hour
     seasonal: 'all',

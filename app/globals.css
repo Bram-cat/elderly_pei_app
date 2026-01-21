@@ -2,50 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
+/* CabinetGrotesk Font */
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fonts/CabinetGrotesk-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fonts/CabinetGrotesk-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fonts/CabinetGrotesk-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fonts/CabinetGrotesk-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.5rem;
-  }
+    /* Cherry Blossom Color Palette - https://coolors.co/palette/ffd9da-ea638c-89023e-30343f-1b2021 */
+    --background: 0 0% 100%; /* White for main background */
+    --foreground: 210 8% 11%; /* #1B2021 - Almost Black */
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --card: 0 0% 100%; /* White cards */
+    --card-foreground: 210 8% 11%; /* #1B2021 */
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 8% 11%;
+
+    --primary: 339 79% 55%; /* #EA638C - Hot Pink */
+    --primary-foreground: 0 0% 100%; /* White text on pink */
+
+    --secondary: 354 100% 92%; /* #FFD9DA - Pale Pink */
+    --secondary-foreground: 210 8% 11%; /* Dark text on pale pink */
+
+    --muted: 354 100% 92%; /* #FFD9DA - Pale Pink */
+    --muted-foreground: 212 12% 22%; /* #30343F - Charcoal */
+
+    --accent: 339 98% 27%; /* #89023E - Burgundy */
+    --accent-foreground: 0 0% 100%; /* White text on burgundy */
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 354 100% 92%; /* #FFD9DA - Pale Pink for borders */
+    --input: 354 100% 92%; /* #FFD9DA */
+    --ring: 339 79% 55%; /* #EA638C - Hot Pink for focus rings */
+
+    --radius: 1rem; /* Slightly larger radius for modern look */
   }
 }
 
@@ -53,7 +74,44 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+    font-family: 'Cabinet Grotesk', system-ui, -apple-system, sans-serif;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cabinet Grotesk', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Swipe Card Animations */
+@keyframes swipe-left {
+  0% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-150%) rotate(-30deg);
+    opacity: 0;
+  }
+}
+
+@keyframes swipe-right {
+  0% {
+    transform: translateX(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(150%) rotate(30deg);
+    opacity: 0;
+  }
+}
+
+.swipe-left {
+  animation: swipe-left 0.3s ease-out forwards;
+}
+
+.swipe-right {
+  animation: swipe-right 0.3s ease-out forwards;
 }
