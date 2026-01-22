@@ -6,18 +6,22 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { JOB_CATEGORIES, CHARLOTTETOWN_NEIGHBORHOODS, getCategoryInfo } from "@/lib/constants";
 import { generateId } from "@/lib/utils";
 import { JobCategory, TimePreference } from "@/lib/types";
 import { formatCurrency } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, ChevronUp } from "lucide-react";
+
+const QUICK_PAY_OPTIONS = [25, 50, 75, 100];
 
 export default function PostJobPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [currentStep, setCurrentStep] = useState(1);
+  const [showDescription, setShowDescription] = useState(false);
 
   // Form state
   const [title, setTitle] = useState("");
@@ -28,6 +32,7 @@ export default function PostJobPage() {
   const [timePreference, setTimePreference] = useState<TimePreference>("asap");
   const [scheduledDate, setScheduledDate] = useState("");
   const [pay, setPay] = useState("");
+  const [customPay, setCustomPay] = useState("");
 
   // Poster info
   const [posterName, setPosterName] = useState("");
@@ -35,6 +40,32 @@ export default function PostJobPage() {
   const [posterEmail, setPosterEmail] = useState("");
 
   const suggestedPay = getCategoryInfo(category)?.suggestedPay;
+
+  // Animation variants
+  const pageVariants = {
+    initial: { opacity: 0, x: 50 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: -50 }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.1, type: "spring", stiffness: 200 }
+    })
+  };
+
+  const handlePaySelect = (amount: number) => {
+    setPay(String(amount));
+    setCustomPay("");
+  };
+
+  const handleCustomPayChange = (value: string) => {
+    setCustomPay(value);
+    setPay(value);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -104,299 +135,396 @@ export default function PostJobPage() {
     <div className="min-h-screen bg-background py-8">
       <div className="container max-w-4xl mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-8">
+        <motion.div
+          className="text-center mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: "spring", stiffness: 200 }}
+        >
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Post a Job</h1>
           <p className="text-xl text-muted-foreground">
             Tell us what you need help with
           </p>
-        </div>
+        </motion.div>
 
-        {/* Progress Indicator */}
+        {/* Progress Indicator - 2 Steps */}
         <div className="flex justify-center gap-3 mb-8">
-          <div className={`h-3 w-3 rounded-full ${currentStep >= 1 ? 'bg-primary' : 'bg-muted'}`} />
-          <div className={`h-3 w-3 rounded-full ${currentStep >= 2 ? 'bg-primary' : 'bg-muted'}`} />
-          <div className={`h-3 w-3 rounded-full ${currentStep >= 3 ? 'bg-primary' : 'bg-muted'}`} />
+          <motion.div
+            className={`h-3 w-12 rounded-full transition-colors duration-300 ${currentStep >= 1 ? 'bg-primary' : 'bg-muted'}`}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.1 }}
+          />
+          <motion.div
+            className={`h-3 w-12 rounded-full transition-colors duration-300 ${currentStep >= 2 ? 'bg-primary' : 'bg-muted'}`}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 0.2 }}
+          />
         </div>
 
         <form onSubmit={handleSubmit}>
-          <Card className="border-2">
+          <Card className="border-2 overflow-hidden">
             <CardContent className="p-8 md:p-12">
-              {/* Step 1: Job Details */}
-              {currentStep === 1 && (
-                <div className="space-y-8">
-                  <h2 className="text-3xl font-bold mb-8">What do you need help with?</h2>
-
-                  {/* Category - Large Buttons */}
-                  <div className="space-y-4">
-                    <Label className="text-2xl font-semibold">Type of Job</Label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {Object.entries(JOB_CATEGORIES).map(([key, info]) => (
-                        <button
-                          key={key}
-                          type="button"
-                          onClick={() => setCategory(key as JobCategory)}
-                          className={`p-6 rounded-xl border-2 text-left transition-all ${
-                            category === key
-                              ? 'border-primary bg-primary/10'
-                              : 'border-border hover:border-primary/50'
-                          }`}
-                        >
-                          <div className="text-xl font-bold mb-2">{info.label}</div>
-                          <div className="text-sm text-muted-foreground">{info.description}</div>
-                          <div className="text-sm font-semibold text-primary mt-2">
-                            Suggested: {formatCurrency(info.suggestedPay.min)} - {formatCurrency(info.suggestedPay.max)}
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Title */}
-                  <div className="space-y-3">
-                    <Label htmlFor="title" className="text-2xl font-semibold">
-                      Brief Description
-                    </Label>
-                    <Input
-                      id="title"
-                      placeholder="e.g., Remove snow from driveway"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      required
-                      className="text-xl p-6 h-auto"
-                    />
-                  </div>
-
-                  <Button
-                    type="button"
-                    size="lg"
-                    className="w-full text-xl h-16"
-                    onClick={() => setCurrentStep(2)}
-                    disabled={!category || !title}
+              <AnimatePresence mode="wait">
+                {/* Step 1: Job Details (Category, Title, Pay, Time) */}
+                {currentStep === 1 && (
+                  <motion.div
+                    key="step1"
+                    className="space-y-8"
+                    variants={pageVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{ type: "spring", stiffness: 200, damping: 25 }}
                   >
-                    Next: Location & Time
-                  </Button>
-                </div>
-              )}
+                    <h2 className="text-3xl font-bold">What do you need help with?</h2>
 
-              {/* Step 2: Location & Time */}
-              {currentStep === 2 && (
-                <div className="space-y-8">
-                  <h2 className="text-3xl font-bold mb-8">Where and when?</h2>
-
-                  {/* Address */}
-                  <div className="space-y-3">
-                    <Label htmlFor="address" className="text-2xl font-semibold">
-                      Your Address
-                    </Label>
-                    <Input
-                      id="address"
-                      placeholder="123 Main Street"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                      required
-                      className="text-xl p-6 h-auto"
-                    />
-                  </div>
-
-                  {/* Neighborhood */}
-                  <div className="space-y-3">
-                    <Label htmlFor="neighborhood" className="text-2xl font-semibold">
-                      Area
-                    </Label>
-                    <Select
-                      id="neighborhood"
-                      value={neighborhood}
-                      onChange={(e) => setNeighborhood(e.target.value)}
-                      className="text-xl p-6 h-auto"
-                    >
-                      {CHARLOTTETOWN_NEIGHBORHOODS.map((n) => (
-                        <option key={n} value={n}>
-                          {n}
-                        </option>
-                      ))}
-                    </Select>
-                  </div>
-
-                  {/* Time Preference - Large Buttons */}
-                  <div className="space-y-4">
-                    <Label className="text-2xl font-semibold">When do you need this done?</Label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {[
-                        { value: 'asap', label: 'As Soon As Possible' },
-                        { value: 'today', label: 'Today' },
-                        { value: 'this-week', label: 'This Week' },
-                        { value: 'scheduled', label: 'Pick a Date' },
-                      ].map((option) => (
-                        <button
-                          key={option.value}
-                          type="button"
-                          onClick={() => setTimePreference(option.value as TimePreference)}
-                          className={`p-6 rounded-xl border-2 text-xl font-semibold transition-all ${
-                            timePreference === option.value
-                              ? 'border-primary bg-primary/10'
-                              : 'border-border hover:border-primary/50'
-                          }`}
-                        >
-                          {option.label}
-                        </button>
-                      ))}
+                    {/* Category - Large Buttons */}
+                    <div className="space-y-4">
+                      <Label className="text-2xl font-semibold">Type of Job</Label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {Object.entries(JOB_CATEGORIES).map(([key, info], index) => (
+                          <motion.button
+                            key={key}
+                            type="button"
+                            onClick={() => setCategory(key as JobCategory)}
+                            className={`p-6 rounded-xl border-2 text-left transition-colors ${
+                              category === key
+                                ? 'border-primary bg-primary/10'
+                                : 'border-border hover:border-primary/50'
+                            }`}
+                            custom={index}
+                            variants={itemVariants}
+                            initial="hidden"
+                            animate="visible"
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <div className="text-xl font-bold mb-2">{info.label}</div>
+                            <div className="text-sm text-muted-foreground">{info.description}</div>
+                            <div className="text-sm font-semibold text-primary mt-2">
+                              Suggested: {formatCurrency(info.suggestedPay.min)} - {formatCurrency(info.suggestedPay.max)}
+                            </div>
+                          </motion.button>
+                        ))}
+                      </div>
                     </div>
 
-                    {timePreference === 'scheduled' && (
+                    {/* Title */}
+                    <motion.div
+                      className="space-y-3"
+                      custom={6}
+                      variants={itemVariants}
+                      initial="hidden"
+                      animate="visible"
+                    >
+                      <Label htmlFor="title" className="text-2xl font-semibold">
+                        Brief Description
+                      </Label>
                       <Input
-                        type="date"
-                        value={scheduledDate}
-                        onChange={(e) => setScheduledDate(e.target.value)}
+                        id="title"
+                        placeholder="e.g., Remove snow from driveway"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                         required
                         className="text-xl p-6 h-auto"
                       />
-                    )}
-                  </div>
+                    </motion.div>
 
-                  <div className="flex gap-4">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="lg"
-                      className="flex-1 text-xl h-16"
-                      onClick={() => setCurrentStep(1)}
+                    {/* Quick Pay Buttons */}
+                    <motion.div
+                      className="space-y-4"
+                      custom={7}
+                      variants={itemVariants}
+                      initial="hidden"
+                      animate="visible"
                     >
-                      Back
-                    </Button>
-                    <Button
-                      type="button"
-                      size="lg"
-                      className="flex-1 text-xl h-16"
-                      onClick={() => setCurrentStep(3)}
-                      disabled={!address}
+                      <Label className="text-2xl font-semibold">How much will you pay?</Label>
+                      {suggestedPay && (
+                        <p className="text-base text-muted-foreground">
+                          Suggested for {getCategoryInfo(category)?.label}: {formatCurrency(suggestedPay.min)} - {formatCurrency(suggestedPay.max)}
+                        </p>
+                      )}
+                      <div className="flex flex-wrap gap-3">
+                        {QUICK_PAY_OPTIONS.map((amount) => (
+                          <motion.button
+                            key={amount}
+                            type="button"
+                            onClick={() => handlePaySelect(amount)}
+                            className={`px-6 py-4 rounded-2xl font-bold text-xl transition-colors ${
+                              pay === String(amount) && !customPay
+                                ? 'bg-primary text-white shadow-lg shadow-primary/30'
+                                : 'bg-secondary hover:bg-secondary/80'
+                            }`}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            ${amount}
+                          </motion.button>
+                        ))}
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl font-bold">$</span>
+                          <Input
+                            type="number"
+                            min="0"
+                            placeholder="Other"
+                            value={customPay}
+                            onChange={(e) => handleCustomPayChange(e.target.value)}
+                            className="w-28 text-xl p-4 h-auto text-center font-bold"
+                          />
+                        </div>
+                      </div>
+                    </motion.div>
+
+                    {/* Time Preference */}
+                    <motion.div
+                      className="space-y-4"
+                      custom={8}
+                      variants={itemVariants}
+                      initial="hidden"
+                      animate="visible"
                     >
-                      Next: Your Info
-                    </Button>
-                  </div>
-                </div>
-              )}
+                      <Label className="text-2xl font-semibold">When do you need this done?</Label>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        {[
+                          { value: 'asap', label: 'ASAP' },
+                          { value: 'today', label: 'Today' },
+                          { value: 'this-week', label: 'This Week' },
+                          { value: 'scheduled', label: 'Pick Date' },
+                        ].map((option) => (
+                          <motion.button
+                            key={option.value}
+                            type="button"
+                            onClick={() => setTimePreference(option.value as TimePreference)}
+                            className={`py-4 px-4 rounded-xl font-semibold text-base transition-colors ${
+                              timePreference === option.value
+                                ? 'bg-primary text-white shadow-lg shadow-primary/30'
+                                : 'bg-secondary hover:bg-secondary/80'
+                            }`}
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            {option.label}
+                          </motion.button>
+                        ))}
+                      </div>
 
-              {/* Step 3: Contact & Payment */}
-              {currentStep === 3 && (
-                <div className="space-y-8">
-                  <h2 className="text-3xl font-bold mb-8">Almost done!</h2>
+                      <AnimatePresence>
+                        {timePreference === 'scheduled' && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ type: "spring", stiffness: 200 }}
+                          >
+                            <Input
+                              type="date"
+                              value={scheduledDate}
+                              onChange={(e) => setScheduledDate(e.target.value)}
+                              required
+                              className="text-xl p-6 h-auto mt-3"
+                            />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
 
-                  {/* Pay */}
-                  <div className="space-y-3">
-                    <Label htmlFor="pay" className="text-2xl font-semibold">
-                      How much can you pay?
-                    </Label>
-                    {suggestedPay && (
-                      <p className="text-lg text-muted-foreground">
-                        Suggested: {formatCurrency(suggestedPay.min)} - {formatCurrency(suggestedPay.max)}
-                      </p>
-                    )}
-                    <div className="flex items-center gap-3">
-                      <span className="text-3xl font-bold">$</span>
+                    <motion.div
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.99 }}
+                    >
+                      <Button
+                        type="button"
+                        size="lg"
+                        className="w-full text-xl h-16"
+                        onClick={() => setCurrentStep(2)}
+                        disabled={!category || !title || !pay}
+                      >
+                        Next: Your Details
+                      </Button>
+                    </motion.div>
+                  </motion.div>
+                )}
+
+                {/* Step 2: Location & Contact */}
+                {currentStep === 2 && (
+                  <motion.div
+                    key="step2"
+                    className="space-y-8"
+                    variants={pageVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{ type: "spring", stiffness: 200, damping: 25 }}
+                  >
+                    <h2 className="text-3xl font-bold">Almost done!</h2>
+
+                    {/* Address */}
+                    <motion.div
+                      className="space-y-3"
+                      custom={0}
+                      variants={itemVariants}
+                      initial="hidden"
+                      animate="visible"
+                    >
+                      <Label htmlFor="address" className="text-2xl font-semibold">
+                        Your Address
+                      </Label>
                       <Input
-                        id="pay"
-                        type="number"
-                        min="0"
-                        step="5"
-                        placeholder="50"
-                        value={pay}
-                        onChange={(e) => setPay(e.target.value)}
+                        id="address"
+                        placeholder="123 Main Street"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
                         required
-                        className="text-3xl p-6 h-auto font-bold"
+                        className="text-xl p-6 h-auto"
                       />
-                      <span className="text-xl text-muted-foreground">CAD</span>
-                    </div>
-                  </div>
+                    </motion.div>
 
-                  {/* Description */}
-                  <div className="space-y-3">
-                    <Label htmlFor="description" className="text-2xl font-semibold">
-                      Any additional details? (Optional)
-                    </Label>
-                    <Textarea
-                      id="description"
-                      placeholder="Add any extra information..."
-                      rows={4}
-                      value={description}
-                      onChange={(e) => setDescription(e.target.value)}
-                      className="text-xl p-6"
-                    />
-                  </div>
-
-                  {/* Your Name */}
-                  <div className="space-y-3">
-                    <Label htmlFor="posterName" className="text-2xl font-semibold">
-                      Your Name
-                    </Label>
-                    <Input
-                      id="posterName"
-                      placeholder="John Smith"
-                      value={posterName}
-                      onChange={(e) => setPosterName(e.target.value)}
-                      required
-                      className="text-xl p-6 h-auto"
-                    />
-                  </div>
-
-                  {/* Phone */}
-                  <div className="space-y-3">
-                    <Label htmlFor="posterPhone" className="text-2xl font-semibold">
-                      Phone Number
-                    </Label>
-                    <Input
-                      id="posterPhone"
-                      type="tel"
-                      placeholder="(902) 555-1234"
-                      value={posterPhone}
-                      onChange={(e) => setPosterPhone(e.target.value)}
-                      required
-                      className="text-xl p-6 h-auto"
-                    />
-                  </div>
-
-                  {/* Email (Optional) */}
-                  <div className="space-y-3">
-                    <Label htmlFor="posterEmail" className="text-2xl font-semibold">
-                      Email (Optional)
-                    </Label>
-                    <Input
-                      id="posterEmail"
-                      type="email"
-                      placeholder="your.email@example.com"
-                      value={posterEmail}
-                      onChange={(e) => setPosterEmail(e.target.value)}
-                      className="text-xl p-6 h-auto"
-                    />
-                  </div>
-
-                  {error && (
-                    <div className="p-6 bg-destructive/10 text-destructive rounded-xl text-lg">
-                      {error}
-                    </div>
-                  )}
-
-                  <div className="flex gap-4">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="lg"
-                      className="flex-1 text-xl h-16"
-                      onClick={() => setCurrentStep(2)}
-                      disabled={isSubmitting}
+                    {/* Neighborhood - Chips */}
+                    <motion.div
+                      className="space-y-3"
+                      custom={1}
+                      variants={itemVariants}
+                      initial="hidden"
+                      animate="visible"
                     >
-                      Back
-                    </Button>
-                    <Button
-                      type="submit"
-                      size="lg"
-                      className="flex-1 text-xl h-16"
-                      disabled={isSubmitting}
+                      <Label className="text-2xl font-semibold">Area</Label>
+                      <div className="flex flex-wrap gap-2">
+                        {CHARLOTTETOWN_NEIGHBORHOODS.map((n) => (
+                          <motion.button
+                            key={n}
+                            type="button"
+                            onClick={() => setNeighborhood(n)}
+                            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                              neighborhood === n
+                                ? 'bg-primary text-white'
+                                : 'bg-secondary hover:bg-secondary/80'
+                            }`}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            {n}
+                          </motion.button>
+                        ))}
+                      </div>
+                    </motion.div>
+
+                    {/* Description - Collapsible */}
+                    <motion.div
+                      className="space-y-3"
+                      custom={2}
+                      variants={itemVariants}
+                      initial="hidden"
+                      animate="visible"
                     >
-                      {isSubmitting ? 'Posting...' : 'Post Job'}
-                    </Button>
-                  </div>
-                </div>
-              )}
+                      <button
+                        type="button"
+                        onClick={() => setShowDescription(!showDescription)}
+                        className="flex items-center gap-2 text-xl font-semibold text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {showDescription ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
+                        Add more details (optional)
+                      </button>
+                      <AnimatePresence>
+                        {showDescription && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ type: "spring", stiffness: 200 }}
+                          >
+                            <Textarea
+                              id="description"
+                              placeholder="Add any extra information..."
+                              rows={4}
+                              value={description}
+                              onChange={(e) => setDescription(e.target.value)}
+                              className="text-xl p-6"
+                            />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+
+                    {/* Contact Info */}
+                    <motion.div
+                      className="space-y-6"
+                      custom={3}
+                      variants={itemVariants}
+                      initial="hidden"
+                      animate="visible"
+                    >
+                      <Label className="text-2xl font-semibold">How can workers reach you?</Label>
+
+                      <div className="space-y-4">
+                        <Input
+                          id="posterName"
+                          placeholder="Your Name *"
+                          value={posterName}
+                          onChange={(e) => setPosterName(e.target.value)}
+                          required
+                          className="text-xl p-6 h-auto"
+                        />
+
+                        <Input
+                          id="posterPhone"
+                          type="tel"
+                          placeholder="Phone Number *"
+                          value={posterPhone}
+                          onChange={(e) => setPosterPhone(e.target.value)}
+                          required
+                          className="text-xl p-6 h-auto"
+                        />
+
+                        <Input
+                          id="posterEmail"
+                          type="email"
+                          placeholder="Email (Optional)"
+                          value={posterEmail}
+                          onChange={(e) => setPosterEmail(e.target.value)}
+                          className="text-xl p-6 h-auto"
+                        />
+                      </div>
+                    </motion.div>
+
+                    {error && (
+                      <motion.div
+                        className="p-6 bg-destructive/10 text-destructive rounded-xl text-lg"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                      >
+                        {error}
+                      </motion.div>
+                    )}
+
+                    <div className="flex gap-4">
+                      <motion.div className="flex-1" whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="lg"
+                          className="w-full text-xl h-16"
+                          onClick={() => setCurrentStep(1)}
+                          disabled={isSubmitting}
+                        >
+                          Back
+                        </Button>
+                      </motion.div>
+                      <motion.div className="flex-1" whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }}>
+                        <Button
+                          type="submit"
+                          size="lg"
+                          className="w-full text-xl h-16"
+                          disabled={isSubmitting || !address || !posterName || !posterPhone}
+                        >
+                          {isSubmitting ? 'Posting...' : 'Post Job'}
+                        </Button>
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </CardContent>
           </Card>
         </form>

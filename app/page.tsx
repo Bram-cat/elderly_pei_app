@@ -5,6 +5,7 @@ import { Job } from "@/lib/types";
 import { JOB_CATEGORIES } from "@/lib/constants";
 import { Filter, ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
 import JobShortCard from "@/components/JobShortCard";
+import { motion } from "framer-motion";
 
 export default function Home() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -116,22 +117,70 @@ export default function Home() {
   }, [jobs, isScrolling]);
 
   return (
-    <div className="h-screen overflow-hidden bg-black">
-      {/* Filter Button - Top Center */}
+    <div className="h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center relative">
+      {/* Decorative Background Blobs */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div
+          className="absolute top-20 left-20 w-72 h-72 bg-primary/20 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.5, 0.3, 0.5]
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div
+          className="absolute top-1/2 left-1/3 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl"
+          animate={{
+            x: [0, 50, 0],
+            y: [0, -30, 0]
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      </div>
+
+      {/* Filter Button - Top Center (OUTSIDE phone) */}
       <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50">
-        <button
+        <motion.button
           onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center gap-3 px-6 py-3 rounded-full bg-black/70 hover:bg-black/90 text-white backdrop-blur-md transition-all duration-200 border-2 border-white/30 shadow-lg"
+          className="flex items-center gap-3 px-6 py-3 rounded-full bg-black/70 hover:bg-black/90 text-white backdrop-blur-md transition-colors duration-200 border-2 border-white/30 shadow-lg"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
           <Filter className="h-6 w-6" />
           <span className="text-base font-semibold">
             {categoryFilter === "all" ? "All Jobs" : JOB_CATEGORIES[categoryFilter as keyof typeof JOB_CATEGORIES]?.label}
           </span>
-        </button>
+        </motion.button>
 
         {/* Filter Dropdown */}
         {showFilters && (
-          <div className="mt-3 p-3 bg-black/95 backdrop-blur-lg border-2 border-white/30 rounded-2xl shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
+          <motion.div
+            className="mt-3 p-3 bg-black/95 backdrop-blur-lg border-2 border-white/30 rounded-2xl shadow-2xl"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          >
             <div className="space-y-2">
               <button
                 onClick={() => {
@@ -163,45 +212,60 @@ export default function Home() {
                 </button>
               ))}
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
 
-      {/* Navigation Arrows - Right Side */}
-      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-4">
-        <button
+      {/* Navigation Arrows - Right Side (OUTSIDE phone) */}
+      <div className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-4">
+        <motion.button
           onClick={handlePrevious}
           disabled={currentIndex === 0}
-          className="p-3 rounded-full bg-black/60 hover:bg-black/80 text-white backdrop-blur-md transition-all duration-200 border border-white/20 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="p-3 rounded-full bg-black/60 hover:bg-black/80 text-white backdrop-blur-md transition-colors duration-200 border border-white/20 disabled:opacity-30 disabled:cursor-not-allowed"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
           <ChevronUp className="h-6 w-6" />
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           onClick={handleNext}
           disabled={currentIndex >= jobs.length - 1}
-          className="p-3 rounded-full bg-black/60 hover:bg-black/80 text-white backdrop-blur-md transition-all duration-200 border border-white/20 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="p-3 rounded-full bg-black/60 hover:bg-black/80 text-white backdrop-blur-md transition-colors duration-200 border border-white/20 disabled:opacity-30 disabled:cursor-not-allowed"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
           <ChevronDown className="h-6 w-6" />
-        </button>
+        </motion.button>
       </div>
 
-      {/* Main Content - Scrollable */}
-      <div
-        ref={containerRef}
-        className="h-full overflow-y-scroll snap-y snap-mandatory scroll-smooth"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-      >
-        <style jsx>{`
-          div::-webkit-scrollbar {
-            display: none;
-          }
-        `}</style>
+      {/* Phone Container - Centered */}
+      <div className="relative w-full h-full md:w-[390px] md:h-[844px] md:max-h-[90vh] md:rounded-[3rem] md:shadow-2xl md:border-8 md:border-gray-800 overflow-hidden bg-black">
+        {/* Phone Notch (desktop only) */}
+        <div className="hidden md:block absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-gray-800 rounded-b-2xl z-10" />
+
+        {/* Main Content - Scrollable */}
+        <div
+          ref={containerRef}
+          className="h-full overflow-y-scroll snap-y snap-mandatory scroll-smooth"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          <style jsx>{`
+            div::-webkit-scrollbar {
+              display: none;
+            }
+          `}</style>
 
         {/* Loading State */}
         {loading && (
-          <div className="h-screen flex items-center justify-center snap-start">
+          <div className="h-full flex items-center justify-center snap-start">
             <div className="text-center">
-              <div className="inline-block h-16 w-16 animate-spin rounded-full border-4 border-solid border-white border-r-transparent mb-4"></div>
+              <motion.div
+                className="inline-block h-16 w-16 rounded-full border-4 border-solid border-white border-r-transparent mb-4"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+              />
               <p className="text-lg text-white">Finding jobs for you...</p>
             </div>
           </div>
@@ -209,9 +273,16 @@ export default function Home() {
 
         {/* Empty State */}
         {!loading && jobs.length === 0 && (
-          <div className="h-screen flex items-center justify-center snap-start">
+          <div className="h-full flex items-center justify-center snap-start">
             <div className="text-center max-w-md px-4">
-              <div className="text-6xl mb-4">💼</div>
+              <motion.div
+                className="text-6xl mb-4"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", stiffness: 200 }}
+              >
+                💼
+              </motion.div>
               <h3 className="text-2xl font-bold mb-2 text-white">No jobs available</h3>
               <p className="text-gray-400 mb-6">
                 {categoryFilter !== "all"
@@ -219,12 +290,15 @@ export default function Home() {
                   : "Check back soon for new opportunities!"}
               </p>
               {categoryFilter !== "all" && (
-                <button
+                <motion.button
                   onClick={() => setCategoryFilter("all")}
-                  className="px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:scale-105 transition-transform duration-200"
+                  className="px-6 py-3 bg-primary text-primary-foreground rounded-full font-medium"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
                   View All Jobs
-                </button>
+                </motion.button>
               )}
             </div>
           </div>
@@ -236,7 +310,7 @@ export default function Home() {
             key={job.id}
             id={`job-${index}`}
             data-index={index}
-            className="h-screen snap-start relative"
+            className="h-full snap-start relative"
           >
             <JobShortCard job={job} isActive={currentIndex === index} />
           </div>
@@ -244,23 +318,33 @@ export default function Home() {
 
         {/* All Done State */}
         {!loading && jobs.length > 0 && (
-          <div className="h-screen flex items-center justify-center snap-start bg-gradient-to-b from-black to-primary/20">
+          <div className="h-full md:h-full flex items-center justify-center snap-start bg-gradient-to-b from-black to-primary/20">
             <div className="text-center max-w-md px-4">
-              <div className="text-6xl mb-4 animate-bounce">🎉</div>
+              <motion.div
+                className="text-6xl mb-4"
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 1, repeat: Infinity }}
+              >
+                🎉
+              </motion.div>
               <h3 className="text-3xl font-bold mb-3 text-white">All caught up!</h3>
               <p className="text-lg text-gray-300 mb-6">
                 You've viewed all available jobs. Great work!
               </p>
-              <button
+              <motion.button
                 onClick={handleReset}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black rounded-full font-medium hover:scale-105 transition-transform duration-200"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black rounded-full font-medium"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 <RotateCcw className="h-5 w-5" />
                 Start Over
-              </button>
+              </motion.button>
             </div>
           </div>
         )}
+        </div>
       </div>
     </div>
   );
