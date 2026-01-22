@@ -53,7 +53,7 @@ export default function PostJobPage() {
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
-      transition: { delay: i * 0.1, type: "spring", stiffness: 200 }
+      transition: { delay: i * 0.1, type: "spring" as const, stiffness: 200 }
     })
   };
 
