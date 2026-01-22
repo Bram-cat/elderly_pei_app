@@ -14,13 +14,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="h-full overflow-hidden">
       <head>
         <link rel="icon" href="/logo.png" type="image/png" />
       </head>
-      <body>
+      <body className="h-full overflow-hidden flex flex-col">
         <Header />
-        <main className="min-h-screen">{children}</main>
+        <main className="flex-1 overflow-hidden">{children}</main>
       </body>
     </html>
   );
