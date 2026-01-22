@@ -3,9 +3,21 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { Job } from "@/lib/types";
 import { JOB_CATEGORIES } from "@/lib/constants";
-import { Filter, ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
+import { Filter, ChevronDown, ChevronUp, RotateCcw, Info, Check, Heart, Share2, ExternalLink } from "lucide-react";
 import JobShortCard from "@/components/JobShortCard";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { formatCurrency } from "@/lib/utils";
+
+// Map job categories to background colors (extracted from images)
+const categoryBackgrounds: Record<string, string> = {
+  'snow-removal': 'from-blue-950 via-slate-900 to-blue-950',
+  'moving': 'from-amber-950 via-stone-900 to-amber-950',
+  'yard-work': 'from-green-950 via-emerald-900 to-green-950',
+  'assembly': 'from-orange-950 via-amber-900 to-orange-950',
+  'repair': 'from-slate-900 via-gray-800 to-slate-900',
+  'other': 'from-purple-950 via-slate-900 to-purple-950',
+};
 
 export default function Home() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -116,47 +128,62 @@ export default function Home() {
     return () => observer.disconnect();
   }, [jobs, isScrolling]);
 
+  // Get current job's category for dynamic background
+  const currentJob = jobs[currentIndex];
+  const currentCategory = currentJob?.category || 'other';
+  const bgGradient = categoryBackgrounds[currentCategory] || categoryBackgrounds['other'];
+
   return (
-    <div className="h-screen overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center relative">
-      {/* Decorative Background Blobs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+    <div className={`h-screen overflow-hidden bg-gradient-to-br ${bgGradient} flex items-center justify-center relative transition-all duration-700`}>
+      {/* Animated Background Overlay */}
+      <AnimatePresence mode="wait">
         <motion.div
-          className="absolute top-20 left-20 w-72 h-72 bg-primary/20 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3]
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.5, 0.3, 0.5]
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/3 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl"
-          animate={{
-            x: [0, 50, 0],
-            y: [0, -30, 0]
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-      </div>
+          key={currentCategory}
+          className="absolute inset-0 pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          {/* Decorative Background Blobs */}
+          <motion.div
+            className="absolute top-10 left-10 w-80 h-80 bg-white/5 rounded-full blur-3xl"
+            animate={{
+              scale: [1, 1.3, 1],
+              opacity: [0.1, 0.2, 0.1]
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          <motion.div
+            className="absolute bottom-10 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl"
+            animate={{
+              scale: [1.2, 1, 1.2],
+              opacity: [0.15, 0.08, 0.15]
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+          <motion.div
+            className="absolute top-1/2 left-1/4 w-72 h-72 bg-primary/10 rounded-full blur-3xl"
+            animate={{
+              x: [0, 60, 0],
+              y: [0, -40, 0]
+            }}
+            transition={{
+              duration: 12,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        </motion.div>
+      </AnimatePresence>
 
       {/* Filter Button - Top Center (OUTSIDE phone) */}
       <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50">
@@ -216,34 +243,141 @@ export default function Home() {
         )}
       </div>
 
-      {/* Navigation Arrows - Right Side (OUTSIDE phone) */}
-      <div className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-4">
+      {/* YouTube Shorts Style Side Actions - Right Side (OUTSIDE phone) */}
+      <div className="hidden md:flex fixed right-8 lg:right-16 xl:right-24 top-1/2 -translate-y-1/2 z-50 flex-col items-center gap-6">
+        {/* Navigation Up */}
         <motion.button
           onClick={handlePrevious}
           disabled={currentIndex === 0}
-          className="p-3 rounded-full bg-black/60 hover:bg-black/80 text-white backdrop-blur-md transition-colors duration-200 border border-white/20 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="p-4 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-md transition-colors duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          <ChevronUp className="h-6 w-6" />
+          <ChevronUp className="h-7 w-7" />
         </motion.button>
+
+        {/* Action Buttons */}
+        {currentJob && (
+          <motion.div
+            className="flex flex-col items-center gap-5"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+          >
+            {/* Like/Save */}
+            <motion.button
+              className="flex flex-col items-center gap-1 group"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
+              <div className="p-3 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors">
+                <Heart className="h-7 w-7 text-white" />
+              </div>
+              <span className="text-xs text-white/80 font-medium">Save</span>
+            </motion.button>
+
+            {/* Share */}
+            <motion.button
+              className="flex flex-col items-center gap-1 group"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
+              <div className="p-3 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors">
+                <Share2 className="h-7 w-7 text-white" />
+              </div>
+              <span className="text-xs text-white/80 font-medium">Share</span>
+            </motion.button>
+
+            {/* View Details */}
+            <Link href={`/job/${currentJob.id}`}>
+              <motion.div
+                className="flex flex-col items-center gap-1 group cursor-pointer"
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                <div className="p-3 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors">
+                  <ExternalLink className="h-7 w-7 text-white" />
+                </div>
+                <span className="text-xs text-white/80 font-medium">Details</span>
+              </motion.div>
+            </Link>
+
+            {/* Accept Job */}
+            <motion.button
+              className="flex flex-col items-center gap-1 group"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
+              <div className="p-3 rounded-full bg-primary group-hover:bg-primary/80 transition-colors shadow-lg shadow-primary/30">
+                <Check className="h-7 w-7 text-white" />
+              </div>
+              <span className="text-xs text-white/80 font-medium">Accept</span>
+            </motion.button>
+
+            {/* Pay Amount Badge */}
+            <motion.div
+              className="mt-2 px-4 py-2 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20"
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            >
+              <span className="text-lg font-bold text-white">{formatCurrency(currentJob.pay)}</span>
+            </motion.div>
+          </motion.div>
+        )}
+
+        {/* Navigation Down */}
         <motion.button
           onClick={handleNext}
           disabled={currentIndex >= jobs.length - 1}
-          className="p-3 rounded-full bg-black/60 hover:bg-black/80 text-white backdrop-blur-md transition-colors duration-200 border border-white/20 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="p-4 rounded-full bg-white/10 hover:bg-white/20 text-white backdrop-blur-md transition-colors duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          <ChevronDown className="h-6 w-6" />
+          <ChevronDown className="h-7 w-7" />
+        </motion.button>
+
+        {/* Job Counter */}
+        {jobs.length > 0 && (
+          <div className="mt-2 text-sm text-white/60 font-medium">
+            {currentIndex + 1} / {jobs.length}
+          </div>
+        )}
+      </div>
+
+      {/* Mobile Navigation - Bottom */}
+      <div className="md:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3">
+        <motion.button
+          onClick={handlePrevious}
+          disabled={currentIndex === 0}
+          className="p-3 rounded-full bg-black/60 text-white backdrop-blur-md disabled:opacity-30"
+          whileTap={{ scale: 0.9 }}
+        >
+          <ChevronUp className="h-5 w-5" />
+        </motion.button>
+        <div className="px-3 py-1.5 rounded-full bg-black/60 text-white text-sm font-medium backdrop-blur-md">
+          {currentIndex + 1} / {jobs.length || 1}
+        </div>
+        <motion.button
+          onClick={handleNext}
+          disabled={currentIndex >= jobs.length - 1}
+          className="p-3 rounded-full bg-black/60 text-white backdrop-blur-md disabled:opacity-30"
+          whileTap={{ scale: 0.9 }}
+        >
+          <ChevronDown className="h-5 w-5" />
         </motion.button>
       </div>
 
-      {/* Phone Container - Centered */}
-      <div className="relative w-full h-full md:w-[390px] md:h-[844px] md:max-h-[90vh] md:rounded-[3rem] md:shadow-2xl md:border-8 md:border-gray-800 overflow-hidden bg-black">
+      {/* Phone Container - Centered & Bigger */}
+      <div className="relative w-full h-full md:w-[430px] md:h-[932px] lg:w-[460px] lg:h-[920px] md:max-h-[92vh] md:rounded-[3rem] md:shadow-2xl md:border-[10px] md:border-gray-900 overflow-hidden bg-black phone-container">
         {/* Phone Notch (desktop only) */}
-        <div className="hidden md:block absolute top-0 left-1/2 -translate-x-1/2 w-32 h-7 bg-gray-800 rounded-b-2xl z-10" />
+        <div className="hidden md:block absolute top-0 left-1/2 -translate-x-1/2 w-36 h-8 bg-gray-900 rounded-b-3xl z-10" />
 
         {/* Main Content - Scrollable */}
         <div
