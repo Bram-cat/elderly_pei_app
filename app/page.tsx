@@ -134,7 +134,7 @@ export default function Home() {
   const bgGradient = categoryBackgrounds[currentCategory] || categoryBackgrounds['other'];
 
   return (
-    <div className={`h-full overflow-hidden bg-gradient-to-br ${bgGradient} transition-all duration-700`}>
+    <div className={`h-full min-h-0 overflow-hidden bg-gradient-to-br ${bgGradient} transition-all duration-700`}>
       {/* Animated Background Overlay */}
       <AnimatePresence mode="wait">
         <motion.div

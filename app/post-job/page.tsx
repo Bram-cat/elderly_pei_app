@@ -132,7 +132,7 @@ export default function PostJobPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background py-8">
+    <div className="min-h-full bg-background py-8 overflow-auto">
       <div className="container max-w-4xl mx-auto px-4">
         {/* Header */}
         <motion.div
